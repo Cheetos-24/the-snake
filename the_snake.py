@@ -2,7 +2,6 @@ from random import randint
 
 import pygame
 
-
 # Константы для размеров поля и сетки:
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
 GRID_SIZE = 20
@@ -101,8 +100,10 @@ class Snake(GameObject):
 
     def move(self):
         """Сдвигает змейку на одну ячейку в текущем направлении.
+
         Голова добавляется в начало списка. Если длина не выросла,
-        последний сегмент удаляется. Проходит сквозь границы."""
+        последний сегмент удаляется. Проходит сквозь границы.
+        """
         head_x, head_y = self.get_head_position()
         dir_x, dir_y = self.direction
         new_head = (
@@ -116,7 +117,6 @@ class Snake(GameObject):
         if len(self.positions) > self.length:
             self.positions.pop()
 
-        # Обновляем атрибут position — он должен соответствовать голове
         self.position = self.positions[0]
 
     def grow(self):
@@ -141,12 +141,10 @@ class Snake(GameObject):
             pygame.draw.rect(screen, self.body_color, rect)
             pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
-        # Отрисовка головы змейки
         head_rect = pygame.Rect(self.positions[0], (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, head_rect)
         pygame.draw.rect(screen, BORDER_COLOR, head_rect, 1)
 
-        # Затирание последнего сегмента
         if self.last:
             last_rect = pygame.Rect(self.last, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
@@ -183,19 +181,16 @@ def main():
         snake.update_direction()
         snake.move()
 
-        # Проверка столкновения головы с телом
         if snake.get_head_position() in snake.positions[1:]:
             snake.reset()
             apple.randomize_position(snake.positions)
             pygame.display.update()
             continue
 
-        # Проверка поедания яблока
         if snake.get_head_position() == apple.position:
             snake.grow()
             apple.randomize_position(snake.positions)
 
-        # Отрисовка
         apple.draw()
         snake.draw()
         pygame.display.update()
