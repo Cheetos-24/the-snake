@@ -51,7 +51,11 @@ class GameObject:
     для наследников — Apple и Snake.
     """
 
-    def __init__(self, position=CENTER_POSITION, body_color=BOARD_BACKGROUND_COLOR):
+    def __init__(
+            self,
+            position=CENTER_POSITION,
+            body_color=BOARD_BACKGROUND_COLOR,
+    ):
         """Инициализирует объект с заданной позицией и цветом."""
         self.position = position
         self.body_color = body_color
@@ -110,8 +114,8 @@ class Snake(GameObject):
     def move(self):
         """Сдвигает змейку на одну ячейку в текущем направлении.
 
-        Голова добавляется в начало списка. Если длина не выросла, 
-        последний сегмент удаляется. Проходит сквозь границы. 
+        Голова добавляется в начало списка. Если длина не выросла,
+        последний сегмент удаляется. Проходит сквозь границы.
         """
         head_x, head_y = self.get_head_position()
         dir_x, dir_y = self.direction
